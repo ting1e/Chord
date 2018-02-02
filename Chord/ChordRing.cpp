@@ -32,14 +32,14 @@ ChordNode * ChordRing::FindSuccessor(std::string key)
 {
 	class ChordNode *dest_node = this->father_node1;
 	//	int i = HASH_BIT - 1;
-	while (!(key.compare(dest_node->GetKey()) == 1 &&
-		key.compare(dest_node->GetSuccessor()->GetKey()) == -1))
+	while (!(key.compare(dest_node->GetHashKey()) == 1 &&
+		key.compare(dest_node->GetSuccessor()->GetHashKey()) == -1))
 	{
 		std::map<std::string, class ChordNode*>finger_table;
 		std::map<std::string, class ChordNode*>::iterator table_node;
 		for (int i = 0; i < HASH_BIT; i++)
 		{
-			finger_table[(dest_node->GetFingerTable()[i])->GetKey()] = dest_node->GetFingerTable()[i];
+			finger_table[(dest_node->GetFingerTable()[i])->GetHashKey()] = dest_node->GetFingerTable()[i];
 		}
 		if (finger_table.count(key) == 1)
 		{
@@ -61,14 +61,14 @@ ChordNode * ChordRing::FindSuccessor(std::string key, std::vector<ChordNode *>&n
 	class ChordNode *dest_node = this->father_node1;
 	node_route.push_back(dest_node->GetPredecessor());
 	//	int i = HASH_BIT - 1;
-	while (!(key.compare(dest_node->GetKey()) == 1 &&
-		key.compare(dest_node->GetSuccessor()->GetKey()) == -1))
+	while (!(key.compare(dest_node->GetHashKey()) == 1 &&
+		key.compare(dest_node->GetSuccessor()->GetHashKey()) == -1))
 	{
 		std::map<std::string, class ChordNode*>finger_table;
 		std::map<std::string, class ChordNode*>::iterator table_node;
 		for (int i = 0; i < HASH_BIT; i++)
 		{
-			finger_table[(dest_node->GetFingerTable()[i])->GetKey()] = dest_node->GetFingerTable()[i];
+			finger_table[(dest_node->GetFingerTable()[i])->GetHashKey()] = dest_node->GetFingerTable()[i];
 		}
 		if (finger_table.count(key) == 1)
 		{
@@ -115,7 +115,7 @@ void ChordRing::InitRing()
 bool ChordRing::Join(std::string ip)
 {
 	class ChordNode *join_node = new ChordNode(ip);
-	class ChordNode *successor_node = FindSuccessor(join_node->GetKey());
+	class ChordNode *successor_node = FindSuccessor(join_node->GetHashKey());
 	if (successor_node == NULL)
 	{
 	//	std::cout << "This key is already in the ring.\n";
@@ -126,14 +126,14 @@ bool ChordRing::Join(std::string ip)
 	join_node->SetPredecessor(successor_node->GetPredecessor());
 	successor_node->GetPredecessor()->SetSuccessor(join_node);
 	successor_node->SetPredecessor(join_node);
-	std::map<std::string, class KeyNode*> map_node = successor_node->GetKeyNodeList();
+	std::map<std::string, class KeyNode*> map_node = successor_node->GetHashKeyNodeList();
 	std::map<std::string, class KeyNode*>::iterator map_key_node;
-	if (successor_node->GetKeyNodeList().size() != 0)
+	if (successor_node->GetHashKeyNodeList().size() != 0)
 	{
 		map_key_node = map_node.begin();
 		while(map_key_node != map_node.end())
 		{
-			if (join_node->GetKey().compare(map_key_node->first) != -1)
+			if (join_node->GetHashKey().compare(map_key_node->first) != -1)
 				break;
 			join_node->AddKeyNode(map_key_node->first, map_key_node->second);
 			successor_node->DeleteKeyNode(map_key_node->first);
@@ -150,9 +150,9 @@ bool ChordRing::Leave(std::string ip)
 	key[HASH_BIT/4-1] -= 1;
 	class ChordNode *dest_node = FindSuccessor(key);
 	key = sha1.Encode(ip);
-	if (dest_node->GetKey() == key)
+	if (dest_node->GetHashKey() == key)
 	{
-		std::map<std::string, class KeyNode*> node_list = dest_node->GetKeyNodeList();
+		std::map<std::string, class KeyNode*> node_list = dest_node->GetHashKeyNodeList();
 		std::map<std::string, class KeyNode*>::iterator map_key_node;
 		map_key_node = node_list.begin();
 		while(map_key_node != node_list.end())
@@ -173,8 +173,8 @@ bool ChordRing::Leave(std::string ip)
 bool ChordRing::Insert(std::string key, std::wstring Value)
 {
 	KeyNode *temp_key_node = new KeyNode(key, Value);
-	class ChordNode *dest_node = FindSuccessor(temp_key_node->GetKey());
-	if (!dest_node->AddKeyNode(temp_key_node->GetKey(), temp_key_node))
+	class ChordNode *dest_node = FindSuccessor(temp_key_node->GetHashKey());
+	if (!dest_node->AddKeyNode(temp_key_node->GetHashKey(), temp_key_node))
 	{
 		delete temp_key_node;
 		return false;

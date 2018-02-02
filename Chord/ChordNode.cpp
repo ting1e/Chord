@@ -45,8 +45,8 @@ void ChordNode::ReFreshFinTab()
 			}
 		}
 		class ChordNode *dest_node = this;
-		while (!(val.compare(dest_node->GetKey()) == 1 &&
-			val.compare(dest_node->successor->GetKey()) == -1))
+		while (!(val.compare(dest_node->GetHashKey()) == 1 &&
+			val.compare(dest_node->successor->GetHashKey()) == -1))
 		{
 			dest_node = dest_node->successor;
 			if (dest_node == this) break;

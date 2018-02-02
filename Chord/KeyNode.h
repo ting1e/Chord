@@ -7,8 +7,8 @@ class KeyNode
 public:
 	KeyNode();
 	KeyNode(std::string key,std::wstring value);
-	std::string GetKey() { return sha1_key; }
-	std::string Getkey() { return key; }
+	std::string GetHashKey() { return sha1_key; }
+	std::string GetKey() { return key; }
 	std::wstring GetValue() { return value; }
 	void UpdateValue(std::wstring Value) { this->value = Value; }
 	~KeyNode();

@@ -22,9 +22,9 @@ public:
 	bool UpdateKeyNode(std::string key,std::wstring value);
 	std::wstring LookUpKeyNode(std::string key);
 
-	std::map<std::string, class KeyNode*> GetKeyNodeList(){return key_node_list; }
+	std::map<std::string, class KeyNode*> GetHashKeyNodeList(){return key_node_list; }
 
-	std::string GetKey() { return sha1_key; }
+	std::string GetHashKey() { return sha1_key; }
 	std::string GetNodeIp() { return node_ip; }
 	std::string GetNodePort() { return node_port; }
 	class ChordNode *GetSuccessor() { return successor; }
