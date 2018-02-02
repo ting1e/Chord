@@ -14,12 +14,12 @@ ChordNode::ChordNode(std::string ip)
 
 }
 
-void ChordNode::ReFreshFinTab()
+void ChordNode::ReFreshFinTab()  
 {
-	for (int i = 0; i < HASH_BIT; i++)
+	for (int i = 0; i < HASH_BIT; i++)  //160times
 	{
-		std::string val = sha1_key;
-		val[HASH_BIT / 4 - 1 - i / 4] += 1 << (i % 4);
+		std::string val = sha1_key;  
+		val[HASH_BIT / 4 - 1 - i / 4] += 1 << (i % 4);  //add 1£¬2£¬4£¬8£¬16£¬32£¬64£¬128¡£¡£¡£
 		//	std::cout << val + "\n";
 		for (int t = 0; t < HASH_BIT / 4; t++)
 		{
@@ -43,16 +43,18 @@ void ChordNode::ReFreshFinTab()
 					val[HASH_BIT / 4 - 2 - t] += 1;
 				}
 			}
-		}
+		}   // end add£¬¡£
+
 		class ChordNode *dest_node = this;
+		//
 		while (!(val.compare(dest_node->GetHashKey()) == 1 &&
 			val.compare(dest_node->successor->GetHashKey()) == -1))
 		{
 			dest_node = dest_node->successor;
 			if (dest_node == this) break;
-		}		
+		}		 
+		  // find the destinaion
 		finger_table[i] = dest_node->successor;
-		//compare
 
 	}
 }
@@ -69,7 +71,7 @@ bool ChordNode::AddKeyNode(std::string key, KeyNode * node)
 
 bool ChordNode::DeleteKeyNode(std::string key)
 {
-	if (key_node_list.count(key) == 1)
+	if (key_node_list.count(key) >=1)
 	{
 		this->key_node_list.erase(key);
 		return true;

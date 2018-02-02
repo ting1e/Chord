@@ -1,4 +1,6 @@
 #pragma once
+//没啥好说的。
+
 #include <iostream>
 #include "SHA1.h"
 
