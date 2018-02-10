@@ -91,7 +91,7 @@ bool ChordNode::UpdateKeyNode(std::string key, std::wstring value)
 
 std::wstring ChordNode::LookUpKeyNode(std::string key)
 {
-	if (key_node_list.count(key) == 1)
+	if (key_node_list.count(key) == 1) 
 		return key_node_list.find(key)->second->GetValue();
 	return std::wstring();
 }
